@@ -1,0 +1,141 @@
+---
+title: "scANVI integration"
+author: "Lucas Massier"
+date: "8/26/2022"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+library(sceasy)
+reticulate::use_python("/disk2/user/lucmas/miniconda3/bin/python")
+library(reticulate)
+packages <- c("Seurat", "patchwork", "harmony", "DT", "dplyr", "writexl")
+invisible(lapply(packages, library, character.only=TRUE))
+seurat <- readRDS("./Seurat_Merged.rds")
+#unify cell type annotations
+seurat$cluster_high <- ifelse(seurat$cluster_high == "Smooth_Muscle", "Smooth_muscle", seurat$cluster_high)
+seurat$cluster_high <- ifelse(seurat$cluster_high == "Mast_Cell", "Mast_cell", seurat$cluster_high)
+```
+
+Select top X variable features, depending on estimated differences between batches
+scANVI/scVI pipeline uses 2000 (e.g., https://docs.scvi-tools.org/en/0.15.1/tutorials/notebooks/scvi_in_R.html), but other publications use up to 7500 (DOI: 10.1126/science.abo0510)
+
+```{r}
+top2000 <- head(VariableFeatures(seurat), 2000)
+seurat_top <- seurat[top2000]
+#write to h5ad for python adata using sceasy
+convertFormat(seurat_top, from="seurat", to="anndata", main_layer="counts", drop_single_values=FALSE,  outFile='ALL_scANVI_top.h5ad')
+convertFormat(seurat, from="seurat", to="anndata", main_layer="counts", drop_single_values=FALSE,  outFile='ALL_scANVI.h5ad')
+```
+
+run scVI and subsequently scANVI in python using reticulate
+
+```{python}
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+import pandas as pd
+
+import scanpy as sc
+import scvi
+import scib
+```
+
+load h5ad file and train scVI model
+
+```{python}
+adata = sc.read("ALL_scANVI_top.h5ad")
+scvi.model.SCVI.setup_anndata(adata, batch_key="orig.ident")
+vae = scvi.model.SCVI(adata, n_layers=2, n_latent=30, gene_likelihood="nb")
+vae.train()
+```
+
+get latent representation
+
+```{python}
+adata.obsm["X_scVI"] = vae.get_latent_representation()
+```
+
+```{python}
+sc.pp.neighbors(adata, use_rep="X_scVI")
+sc.tl.leiden(adata)
+```
+
+```{python}
+from scvi.model.utils import mde
+import pymde
+adata.obsm["X_mde"] = mde(adata.obsm["X_scVI"])
+```
+
+```{python}
+lvae = scvi.model.SCANVI.from_scvi_model(
+    vae,
+    adata=adata,
+    labels_key="cluster_high",
+    unlabeled_category="Unknown",
+)
+```
+
+```{python}
+lvae.train(max_epochs=20, n_samples_per_label=100)
+```
+
+```{python}
+adata.obsm["X_scANVI"] = lvae.get_latent_representation(adata)
+```
+
+```{python}
+adata.obsm["X_mde_scanvi"] = mde(adata.obsm["X_scANVI"])
+```
+
+write h5ad file
+
+```{python}
+adata.write_h5ad("ALL_scANVI_int")
+```
+
+convert back to seurat using sceasy
+
+```{r}
+scANVI <- sceasy::convertFormat("ALL_scANVI_int.h5ad", from="anndata", to="seurat",
+                       outFile='scANVI.rds')
+```
+
+```{r}
+scANVI@assays
+scANVI@reductions #contains scANVI and scVI
+#bring back into large seurat & run UMAP comparing both scVI & scANVI
+ALL <- readRDS("00_Seurats_Complete/ALL_merged.rds")
+library(Seurat)
+DimPlot(ALL)
+ALL[["scvi"]] <- scANVI[["scVI"]]
+ALL[["scanvi"]] <- scANVI[["scANVI"]]
+ALL@reductions
+ALL <- RunUMAP(ALL, dims = 1:30, reduction = "scanvi", n.components = 2)
+DimPlot(ALL, group.by = "orig.ident")
+```
+
+```{r}
+scANVI <- RunUMAP(scANVI, dims = 1:30, reduction = "scANVI", n.components = 2)
+DimPlot(scANVI, group.by = c("cluster_group", "cluster_high"))
+DimPlot(scANVI, group.by="method",  cols = c("#349567" , "#907198"), pt.size = 1, shuffle = T)
+#colors
+color_func_blue <- colorRampPalette(colors = c("#C6DBEF", "#075a84"))
+color_func_orange <- colorRampPalette(colors = c("#F3E55C", "#E8602D"))
+color_func_green <- colorRampPalette(colors = c("#a6dbbb", "#359566"))
+color_func_purp <- colorRampPalette(colors = c("#ecd9f1", "#967bce"))
+blau <- color_func_blue(4)
+lila <- color_func_purp(4)
+gruen <- color_func_green(4)
+reds <- color_func_orange(4)
+farben <- c(blau[1:2],reds[2],gruen[1:2], reds[1],blau[3:4],lila[1:4],reds[3:4],gruen[3:4])
+library(ggplot2)
+DimPlot(scANVI, group.by = c("orig.ident"), shuffle = T) + scale_color_manual(values=farben)
+
+scANVI <- RunUMAP(scANVI, dims = 1:30, reduction = "scVI", n.components = 2)
+DimPlot(scANVI, group.by = c("orig.ident", "cluster_group", "cluster_high"))
+
+```
+
