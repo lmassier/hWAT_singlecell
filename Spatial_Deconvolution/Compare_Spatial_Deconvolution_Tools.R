@@ -267,6 +267,19 @@ SpatialColors <- colorRampPalette(colors = rev(x = brewer.pal(n = 11, name = "Sp
 
 SpatialFeaturePlot(st_s52,features = c("cell2location_Myeloid"),pt.size.factor = 1.7,image.alpha = 0,min.cutoff = "q1", max.cutoff = "q99") +
   scale_fill_gradientn(colours = SpatialColors(n = 100)[51:100])
+st_s52_temp_myeloid <- subset(st_s52, subset = imagerow > 3700)
+st_s52_temp_myeloid <- subset(st_s52_temp_myeloid, subset = imagerow < 4350)
+st_s52_temp_myeloid <- subset(st_s52_temp_myeloid, subset = imagecol > 3650)
+st_s52_temp_myeloid <- subset(st_s52_temp_myeloid, subset = imagecol < 4300)
+SpatialFeaturePlot(st_s52_temp_myeloid,features = "cell2location_Myeloid",pt.size.factor = 7,ncol = 1, min.cutoff = "q10", max.cutoff = "q90") +
+  scale_fill_gradientn(colours = SpatialColors(n = 100)[51:100])
+
 
 SpatialFeaturePlot(st_s55,features = c("cell2location_Myeloid"),pt.size.factor = 1.7,image.alpha = 0,min.cutoff = "q1", max.cutoff = "q99") +
+  scale_fill_gradientn(colours = SpatialColors(n = 100)[51:100])
+st_s55_temp_myeloid <- subset(st_s55, subset = imagerow > 4200)
+st_s55_temp_myeloid <- subset(st_s55_temp_myeloid, subset = imagerow < 4800)
+st_s55_temp_myeloid <- subset(st_s55_temp_myeloid, subset = imagecol > 7000)
+st_s55_temp_myeloid <- subset(st_s55_temp_myeloid, subset = imagecol < 7600)
+SpatialFeaturePlot(st_s55_temp_myeloid,features = "cell2location_Myeloid",pt.size.factor = 7,ncol = 1, min.cutoff = "q10", max.cutoff = "q90") +
   scale_fill_gradientn(colours = SpatialColors(n = 100)[51:100])
