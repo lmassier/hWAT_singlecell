@@ -21,7 +21,7 @@ vascular <- readRDS(file.path(DIR_DATA,"MERGED/Vascular.rds"))
 vascular <- RunUMAP(vascular, dims = 1:10, reduction = "scvi", n.components = 2)
 vascular <- FindNeighbors(object = vascular, verbose = T, reduction = "scvi", dims = 1:10)
 vascular<- FindClusters(object = vascular, verbose = T, algorithm = 1, resolution = 0.6)
-saveRDS(vascular, file.path(DIR_RES,"INTEGRATED/Vascular.rds")
+saveRDS(vascular, file.path(DIR_RES,"INTEGRATED/Vascular.rds"))
 
 #visualize UMAP by method/cohort/depot
 DimPlot(vascular, group.by = c("method", "orig.ident","tissue"), shuffle = T)
@@ -53,7 +53,7 @@ cluster_prop <- cluster_prop %>%
 cluster_prop <- as.data.frame(cluster_prop)
 cluster_prop$percent <- cluster_prop$n / sum(cluster_prop$n)*100
 cluster_prop$n <- NULL
-write.table(cluster_prop, file.path(DIR_RES,"Vascular_Percent.txt", sep="\t", row.names = F)
+write.table(cluster_prop, file.path(DIR_RES,"Vascular_Percent.txt"), sep="\t", row.names = F)
 cluster_prop$seurat_clusters <- factor(cluster_prop$seurat_clusters, levels = seq(from=0, to=11, by=1))
 ggplot(data = cluster_prop, aes(x=seurat_clusters, y=1, size=percent))+ geom_count(shape=21)+ theme_classic()
 
