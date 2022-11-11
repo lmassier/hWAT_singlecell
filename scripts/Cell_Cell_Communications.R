@@ -3,7 +3,6 @@
 options(stringsAsFactors = F)
 
 library(ggplot2)
-library(BuenColors)
 library(Seurat)
 library(CellChat)
 library(patchwork)
