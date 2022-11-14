@@ -10,7 +10,7 @@ Adipose single-cell studies have uncovered important biological findings. Howeve
 ![Cohort Overview](/images/Cohort_Overview.PNG)
 
 ## Description
-This repo contains scripts to replicate results our current study, currently under review
+This repo contains scripts to replicate results of our current study, currently under review
 - [ ] add link when published
 - [ ] update description for accepted version
 
