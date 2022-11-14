@@ -12,8 +12,20 @@ Adipose single-cell studies have uncovered important biological findings. Howeve
 ## Description
 This repo contains scripts to replicate results our current study, currently under review
 - [ ] add link when published
+- [ ] update description for accepted version
 
 ## Content
+
+* `CellTypist`: CellTypist models trained on integrated data
+* `FACS`: Raw data for included FACS analysis  
+* `Source Data`: Source data for figure panels in the manuscript
+* `Spatial_Deconvolution`: Code to replicate spatial deconvolution
+* `scripts`: contains scripts used to analyze data
+  * `bulk deconvolution`: depots specific and clinical RNA seq deconvolution
+  * `Cell Types`: Sublcustering
+  * `Integration`: Tested integration methods
+  * `Network`: Marker gene comparison before integration
+
 
 
 ## Contact
