@@ -11,7 +11,7 @@ Adipose single-cell studies have uncovered important biological findings. Howeve
 ## Description
 This repo contains scripts to replicate results of our current study, as well as the source data and CellTypist models trained on this data set.  
 Link to publication:  
-Link to snSeq data:  
+Link to snSeq data: [https://doi.org/10.17632/y3pxvr4xbf.1] (https://doi.org/10.17632/y3pxvr4xbf.1)
 
 
 
