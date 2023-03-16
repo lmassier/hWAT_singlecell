@@ -1,4 +1,4 @@
-# A Meta Perspective On The Cellular Landscape of Human White Adipose Tissue
+# An integrated single cell and spatial transcriptomic map of human white adipose tissue
 **Lucas Massier, Jutta Jalkanen, Merve Elmastas, Jiawei Zhong, Tongtong Wang, Pamela A. Nono Nankam, Scott Frendo-Cumbo, Jesper Bäckdahl, Narmadha Subramanian, Takuya Sekine, Alastair Kerr, Tzu Pin Tseng, Jurga Laurencikiene, Marcus Buggert, Magda Lourda, Karolina Kublickiene, Nayanika Bhalla, Alma Andersson, Armand Valsesia, Arne Astrup, Ellen E. Blaak, Patrik L. Ståhl, Nathalie Viguerie, Dominique Langin, Christian Wolfrum, Matthias Blüher, Mikael Rydén, Niklas Mejhert**
 
 
@@ -10,7 +10,7 @@ Adipose single-cell studies have uncovered important biological findings. Howeve
 
 ## Description
 This repo contains scripts to replicate results of our current study, as well as the source data and CellTypist models trained on this data set.  
-Link to publication:  
+Link to publication: https://www.nature.com/articles/s41467-023-36983-2  
 Link to snSeq data: (https://doi.org/10.17632/y3pxvr4xbf.2)
 
 
