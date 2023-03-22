@@ -30,5 +30,6 @@ Link to snSeq data: (https://doi.org/10.17632/y3pxvr4xbf.2)
 
 
 ## Contact
-For questions regarding data analysis, please write to lucas.massier@ki.se or jiawei.zhong@ki.se  
-Corresponding authors: Niklas Mejhert (niklas.mejhert@ki.se) and Mikael Rydén (mikael.ryden@ki.se)
+For questions regarding data analysis, please write to lucas.massier[AT]ki.se or jiawei.zhong[AT]ki.se  
+Corresponding authors: Niklas Mejhert (niklas.mejhert[AT]ki.se) and Mikael Rydén (mikael.ryden[AT]ki.se)
+
