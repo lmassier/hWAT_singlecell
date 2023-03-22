@@ -20,12 +20,12 @@ Link to snSeq data: (https://doi.org/10.17632/y3pxvr4xbf.2)
 * `CellTypist`: CellTypist models trained on integrated data
 * `FACS`: Raw data for included FACS analysis  
 * `Source Data`: Source data for figure panels in the manuscript
-* `Spatial_Deconvolution`: Code to replicate spatial deconvolution
 * `scripts`: contains scripts used to analyze data
   * `bulk deconvolution`: depots specific and clinical RNA seq deconvolution
   * `Cell Types`: Sublcustering
   * `Integration`: Tested integration methods
   * `Network`: Marker gene comparison before integration
+  * `Spatial_Deconvolution`: Code to replicate spatial deconvolution
 
 
 
