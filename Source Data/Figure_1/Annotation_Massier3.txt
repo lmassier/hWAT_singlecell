@@ -1,0 +1,16 @@
+seurat_clusters	cluster_anno	cluster_type
+0	Endothelial	Vascular/Endo
+1	Pread	Preadipo/Fibro
+2	Immune	Immune
+3	Immune	Immune
+4	Endo	Vascular/Endo
+5	Bcell	Immune
+6	Endothelial	Vascular/Endo
+7	Endothelial	Vascular/Endo
+8	Immune	Immune
+9	Adipocyte	Adipocyte
+10	Macrophage	Immune
+11	Vascular	Vascular/Endo
+12	Endothelial	Vascular/Endo
+13	S100a8_Macro	Immune
+14	Bcell	Immune
